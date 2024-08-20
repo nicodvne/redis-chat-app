@@ -6,6 +6,7 @@ import { TooltipTrigger } from '@radix-ui/react-tooltip';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import { Button } from './ui/button';
 import { cn } from '@/lib/utils';
+import { LogOut } from 'lucide-react';
 
 interface SidebarProps {
     isCollapsed: boolean;
@@ -81,6 +82,31 @@ const Sidebar = ({isCollapsed}: SidebarProps) => {
                 )
             ))}
         </ScrollArea>
+
+        {/** Logout section */}
+
+        <div className='mt-auto'>
+            <div className='flex justify-between items-center gap-2 md:px-6 py-2'>
+                {!isCollapsed && (
+                    <div className='hidden md:flex gap-2 items-center '>
+                        <Avatar className='flex justify-center items-center'>
+                            <AvatarImage
+                                src={ "/user-placeholder.png"}
+                                alt='avatar'
+                                referrerPolicy='no-referrer'
+                                className='w-8 h-8 border-2 border-white rounded-full'
+                            />
+                        </Avatar>
+                        <p className='font-bold'>
+                            John Doe
+                        </p>
+                    </div>
+                )}
+                <div className='flex'>
+                    <LogOut size={22} cursor={"pointer"}></LogOut>
+                </div>
+            </div>
+        </div>
     </div>
   )
 }
