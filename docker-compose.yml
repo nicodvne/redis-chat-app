@@ -1,27 +1,6 @@
 version: '3'
 
 services:
-
-  traefik:
-    image: traefik:v2.4
-    container_name: traefik
-    command:
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      - "--entrypoints.web-secure.address=:443"
-      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
-      - "--certificatesresolvers.myresolver.acme.email=your-email@example.com"
-      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
-    ports:
-      - "80:80"
-      - "443:443"
-      - "8080:8080" # Traefik Dashboard
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - ./letsencrypt:/letsencrypt
-
-
   app:
     build:
       context: redis-app
@@ -29,11 +8,5 @@ services:
     container_name: front-app
     volumes:
       - ./redis-app:/app
-    expose:
-      - 3000
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.app.rule=Host(`redis-chat-app.local`)"
-      - "traefik.http.routers.app.entrypoints=web-secure"
-      - "traefik.http.routers.app.tls=true"
-      - "traefik.http.services.app.loadbalancer.server.port=3000"
+    ports:
+      - 3000:3000
